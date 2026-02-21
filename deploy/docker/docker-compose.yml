@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ../../
+      dockerfile: deploy/docker/Dockerfile.backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - PROP_AMM_INLINE_JOB_EXECUTION=false
+      - PROP_AMM_CORS_ORIGINS=http://localhost:5173,http://localhost:8080
+    volumes:
+      - ../../data:/app/data
+
+  worker:
+    build:
+      context: ../../
+      dockerfile: deploy/docker/Dockerfile.worker
+    depends_on:
+      - backend
+    environment:
+      - PYTHONPATH=/app
+      - PROP_AMM_INLINE_JOB_EXECUTION=false
+    volumes:
+      - ../../data:/app/data
+
+  dashboard:
+    build:
+      context: ../../
+      dockerfile: deploy/docker/Dockerfile.dashboard
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend

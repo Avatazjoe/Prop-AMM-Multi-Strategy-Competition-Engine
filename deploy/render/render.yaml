@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: prop-amm-dashboard
+    env: docker
+    dockerfilePath: ./deploy/render/dashboard.Dockerfile
+    plan: starter
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://prop-amm-backend.onrender.com
+
+  - type: web
+    name: prop-amm-backend
+    env: docker
+    dockerfilePath: ./deploy/render/backend.Dockerfile
+    healthCheckPath: /healthz
+    plan: starter
+    envVars:
+      - key: PROP_AMM_INLINE_JOB_EXECUTION
+        value: "false"
+      - key: PROP_AMM_CORS_ORIGINS
+        value: https://your-dashboard-domain.onrender.com
+
+  - type: worker
+    name: prop-amm-worker
+    env: docker
+    dockerfilePath: ./deploy/render/worker.Dockerfile
+    plan: starter
+    envVars:
+      - key: PROP_AMM_INLINE_JOB_EXECUTION
+        value: "false"
