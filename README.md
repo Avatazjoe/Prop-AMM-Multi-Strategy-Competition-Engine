@@ -1,4 +1,4 @@
-# AMM Multi — Multi-Strategy Competition Engine
+# AMM Multi-Strategy Competition Engine
 
 Extends [prop-amm-challenge](https://github.com/benedictbrady/prop-amm-challenge) with:
 
